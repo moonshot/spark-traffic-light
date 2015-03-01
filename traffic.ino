@@ -39,7 +39,7 @@ void setup() {
   pinMode(yellow, OUTPUT);
   pinMode(green, OUTPUT);
   digitalWrite(red, LOW);
-  digitalWrite(yellow, LOW);
+  digitalWrite(yellow, HIGH);
   digitalWrite(green, LOW);
   Spark.function("build", build);
 }
