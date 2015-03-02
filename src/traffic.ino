@@ -9,21 +9,13 @@ int green = D5;
 //
 // curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
 // -d access_token={ACCESS_TOKEN} \
-// -d "args=PASSED"
-
-// curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
-// -d access_token={ACCESS_TOKEN} \
-// -d "args=BUILDING"
-
-// curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
-// -d access_token={ACCESS_TOKEN} \
-// -d "args=FAILED"
-int build(String status) {
-  if (status == "PASSED"){
+// -d "args=green"
+int build(String color) {
+  if (color == "green"){
       digitalWrite(red, LOW);
       digitalWrite(yellow, LOW);
       digitalWrite(green, HIGH);
-  } else if (status == "FAILED") {
+  } else if (color == "red") {
       digitalWrite(red, HIGH);
       digitalWrite(yellow, LOW);
       digitalWrite(green, LOW);
@@ -32,6 +24,7 @@ int build(String status) {
   }
   return 1;
 }
+
 
 // Turn off the lights and set up the Spark.function usage.
 void setup() {
