@@ -9,27 +9,40 @@ int green = D5;
 //
 // curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
 // -d access_token={ACCESS_TOKEN} \
-// -d "args=PASSED"
-
-// curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
-// -d access_token={ACCESS_TOKEN} \
-// -d "args=BUILDING"
-
-// curl https://api.spark.io/v1/devices/{DEVICE_ID}/build \
-// -d access_token={ACCESS_TOKEN} \
-// -d "args=FAILED"
-int build(String status) {
-  if (status == "PASSED"){
+// -d "args=green"
+int build(String color) {
+  if (color == "green"){
       digitalWrite(red, LOW);
       digitalWrite(yellow, LOW);
       digitalWrite(green, HIGH);
-  } else if (status == "FAILED") {
+  } else if (color == "red") {
       digitalWrite(red, HIGH);
       digitalWrite(yellow, LOW);
       digitalWrite(green, LOW);
   } else {
       digitalWrite(yellow, HIGH);
   }
+  return 1;
+}
+
+int notify(String ballcolor) {
+  // For ballcolor's Enum values, see the jenkins docs at:
+  // http://javadoc.jenkins-ci.org/hudson/model/BallColor.html
+  switch (ballcolor.toInt())
+    {
+      case 2:  // blue
+        digitalWrite(red, LOW);
+        digitalWrite(yellow, LOW);
+        digitalWrite(green, HIGH);
+        break;
+      case 10:  // red
+        digitalWrite(red, HIGH);
+        digitalWrite(yellow, LOW);
+        digitalWrite(green, LOW);
+        break;
+      default:
+        digitalWrite(yellow, HIGH);
+    }
   return 1;
 }
 
@@ -42,6 +55,7 @@ void setup() {
   digitalWrite(yellow, HIGH);
   digitalWrite(green, LOW);
   Spark.function("build", build);
+  Spark.function("notify", notify);
 }
 
 // All of our behavior is coming via the Spark.function + API requests,
