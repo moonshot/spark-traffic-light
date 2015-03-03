@@ -25,6 +25,26 @@ int build(String color) {
   return 1;
 }
 
+int notify(String ballcolor) {
+  // For ballcolor's Enum values, see the jenkins docs at:
+  // http://javadoc.jenkins-ci.org/hudson/model/BallColor.html
+  switch (ballcolor.toInt())
+    {
+      case 2:  // blue
+        digitalWrite(red, LOW);
+        digitalWrite(yellow, LOW);
+        digitalWrite(green, HIGH);
+        break;
+      case 10:  // red
+        digitalWrite(red, HIGH);
+        digitalWrite(yellow, LOW);
+        digitalWrite(green, LOW);
+        break;
+      default:
+        digitalWrite(yellow, HIGH);
+    }
+  return 1;
+}
 
 // Turn off the lights and set up the Spark.function usage.
 void setup() {
@@ -35,6 +55,7 @@ void setup() {
   digitalWrite(yellow, HIGH);
   digitalWrite(green, LOW);
   Spark.function("build", build);
+  Spark.function("notify", notify);
 }
 
 // All of our behavior is coming via the Spark.function + API requests,
