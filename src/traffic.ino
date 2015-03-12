@@ -34,23 +34,20 @@ int build(String color) {
 }
 
 int notify(String ballcolor) {
-  // For ballcolor's Enum values, see the jenkins docs at:
+  // For ballcolor's values, see the jenkins docs at:
   // http://javadoc.jenkins-ci.org/hudson/model/BallColor.html
-  switch (ballcolor.toInt())
-    {
-      case 2:  // blue
-        digitalWrite(red, LOW);
-        digitalWrite(yellow, LOW);
-        digitalWrite(green, HIGH);
-        break;
-      case 10:  // red
-        digitalWrite(red, HIGH);
-        digitalWrite(yellow, LOW);
-        digitalWrite(green, LOW);
-        break;
-      default:
-        digitalWrite(yellow, HIGH);
-    }
+  ballcolor.toCharArray(notify_color, 16);
+  if (ballcolor == "Success"){
+      digitalWrite(red, LOW);
+      digitalWrite(yellow, LOW);
+      digitalWrite(green, HIGH);
+  } else if (ballcolor == "Failed") {
+      digitalWrite(red, HIGH);
+      digitalWrite(yellow, LOW);
+      digitalWrite(green, LOW);
+  } else {
+      digitalWrite(yellow, HIGH);
+  }
   return 1;
 }
 
