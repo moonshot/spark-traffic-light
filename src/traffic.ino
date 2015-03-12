@@ -3,6 +3,9 @@ int red = D1;
 int yellow = D4;
 int green = D5;
 
+char build_color[16] = "NONE";
+char notify_color[16] = "NONE";
+
 // This is the function that will be called in firmware
 // when the build system uses the REST API to call it over the internet
 // For example:
@@ -11,12 +14,17 @@ int green = D5;
 // -d access_token={ACCESS_TOKEN} \
 // -d "args=green"
 int build(String color) {
+  color.toCharArray(build_color, 16);
   if (color == "green"){
       digitalWrite(red, LOW);
       digitalWrite(yellow, LOW);
       digitalWrite(green, HIGH);
   } else if (color == "red") {
       digitalWrite(red, HIGH);
+      digitalWrite(yellow, LOW);
+      digitalWrite(green, LOW);
+  } else if (color == "off") {
+      digitalWrite(red, LOW);
       digitalWrite(yellow, LOW);
       digitalWrite(green, LOW);
   } else {
@@ -56,6 +64,9 @@ void setup() {
   digitalWrite(green, LOW);
   Spark.function("build", build);
   Spark.function("notify", notify);
+
+  Spark.variable("build_color", &build_color, STRING);
+  Spark.variable("notify_color", &notify_color, STRING);
 }
 
 // All of our behavior is coming via the Spark.function + API requests,
